@@ -1,0 +1,24 @@
+{
+  "name": "takedasite",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-01",
+  "account_id": "fa03cd9cababb13a09331265a38f4ed1",
+  "observability": { "enabled": true },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "kv_namespaces": [
+    { "binding": "INQUIRIES", "id": "686fa302084e4bacaf163180b0433776" }
+  ],
+  "vars": {
+    // microCMS のサービスドメイン（https://<ここ>.microcms.io）。武田様のアカウント開設後に設定する。
+    "MICROCMS_SERVICE_DOMAIN": "",
+    // microCMS のエンドポイント（APIの識別子）
+    "MICROCMS_ENDPOINT": "news",
+    // Lark / Feishu のAPIホスト。Lark（国際版）は open.larksuite.com
+    "LARK_BASE_HOST": "https://open.larksuite.com"
+  }
+}
