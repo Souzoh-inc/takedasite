@@ -1,14 +1,17 @@
 {
   "name": "takedasite",
   "main": "src/worker.js",
-  "compatibility_date": "2026-08-01",
+  "compatibility_date": "2026-06-10",
   "account_id": "fa03cd9cababb13a09331265a38f4ed1",
   "observability": { "enabled": true },
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // 静的アセットも Worker を通す。一般公開しない運用のため、
+    // 全レスポンスに X-Robots-Tag: noindex を付ける必要がある（要件定義書 §1）。
+    "run_worker_first": true
   },
   "kv_namespaces": [
     { "binding": "INQUIRIES", "id": "686fa302084e4bacaf163180b0433776" }
