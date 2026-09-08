@@ -97,7 +97,18 @@ npx wrangler deploy                    # 本番
 |---|---|
 | `MICROCMS_API_KEY` | お知らせの取得。未設定のうちは「お知らせはありません」を表示する |
 | ~~`LARK_APP_ID` / `LARK_APP_SECRET`~~ | **設定済み**（2026-09-08） |
-| `LARK_BASE_APP_TOKEN` / `LARK_BASE_TABLE_ID` | 送信先のテーブル。**未設定** |
+| `LARK_BASE_APP_TOKEN` / `LARK_BASE_TABLE_ID` | 送信先のテーブル。**設定済みだが下記のとおり要差し替え** |
+
+🔴 **いま向いている Base は、疎通確認のためにこちらで作った仮のもの**
+（`FN3xbnECHa7oYFsTTIZjlB61pNc` / `tblvqltGwHkamp2Z`、日本リージョンの
+larksuite）。**武田様も菊池さんも開けない。** 武田様が作られた Base の URL が
+届いたら、必ず差し替えること。差し替えを忘れると、問い合わせが誰も見られない
+場所に入る（KV には必ず控えが残るので取りこぼしはしない）。
+
+**2026-09-08 に疎通確認済み。** 本番サイトのフォームから実際に送信し、
+`{"ok":true,"stored":true,"delivered":true}`、Base 側に8列すべてと添付ファイルが
+入ることを確認した。残っているのは app_token / table_id の差し替えだけで、
+コードの追加作業は無い。
 
 `LARK_BASE_APP_TOKEN` と `LARK_BASE_TABLE_ID` は Base の URL からしか取れない。
 アプリに付与されているのは bitable 系スコープだけなので、API から Base を
