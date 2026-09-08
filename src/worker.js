@@ -58,22 +58,31 @@ async function handleNews(request, env, ctx) {
   const hit = await cache.match(cacheKey);
   if (hit) return hit;
 
-  const api = `https://${domain}.microcms.io/api/v1/${endpoint}?limit=${NEWS_LIMIT}&orders=-publishedAt&fields=id,title,publishedAt,createdAt,url`;
+  // fields は指定しない。存在しないフィールド名を渡すと microCMS が 400 を返すため、
+  // 先方のスキーマに依存しないようにしている（返る件数は5件なので全項目でも軽い）。
+  const api = `https://${domain}.microcms.io/api/v1/${endpoint}?limit=${NEWS_LIMIT}&orders=-publishedAt`;
 
   let upstream;
   try {
     upstream = await fetch(api, { headers: { 'X-MICROCMS-API-KEY': key } });
   } catch (e) {
+    console.error('microCMS に到達できません:', e);
     return json({ items: [], error: 'upstream unreachable' }, 200);
   }
-  if (!upstream.ok) return json({ items: [], error: `upstream ${upstream.status}` }, 200);
+  if (!upstream.ok) {
+    // 画面は「お知らせはありません」で保たせ、原因はログに残す
+    console.error(`microCMS ${upstream.status}:`, (await upstream.text()).slice(0, 300));
+    return json({ items: [], error: `upstream ${upstream.status}` }, 200);
+  }
 
   const data = await upstream.json();
-  const items = (data.contents || []).map((c) => ({
-    date: c.publishedAt || c.createdAt || '',
-    title: c.title || '',
-    url: c.url || '',
-  }));
+  const items = (data.contents || [])
+    .map((c) => ({
+      date: c.publishedAt || c.createdAt || '',
+      title: c.title || c.name || '',
+      url: typeof c.url === 'string' ? c.url : '',
+    }))
+    .filter((c) => c.title);
 
   const res = json({ items, configured: true }, 200, { 'cache-control': 'public, max-age=300' });
   ctx.waitUntil(cache.put(cacheKey, res.clone()));
