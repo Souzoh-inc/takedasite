@@ -89,15 +89,17 @@ npx wrangler deploy                    # 本番
   IntersectionObserver ＋ `transition` で実装してある
 - アクセントカラーは参考デザインより濃い。理由は `docs/確認事項.md` D-1
 
-## シークレット（未設定）
+## シークレット（すべて設定済み）
 
-`wrangler.jsonc` の `vars` は公開値のみ。以下は `npx wrangler secret put <名前>` で入れる。
+`wrangler.jsonc` の `vars` は公開値のみ。**このリポジトリは public なので、
+microCMS のサービスドメインも vars ではなく secret に入れてある。**
+値の確認は `npx wrangler secret list`（名前だけ。値は取り出せない）。
 
-| 名前 | 用途 |
-|---|---|
-| `MICROCMS_API_KEY` | お知らせの取得。未設定のうちは「お知らせはありません」を表示する |
-| ~~`LARK_APP_ID` / `LARK_APP_SECRET`~~ | **設定済み**（2026-09-08） |
-| ~~`LARK_BASE_APP_TOKEN` / `LARK_BASE_TABLE_ID`~~ | **設定済み**（武田様の Base を指している） |
+| 名前 | 用途 | 状態 |
+|---|---|---|
+| `MICROCMS_SERVICE_DOMAIN` / `MICROCMS_API_KEY` | お知らせの取得 | **設定済み**（2026-09-08） |
+| `LARK_APP_ID` / `LARK_APP_SECRET` | Lark Base への送信 | **設定済み**（2026-09-08） |
+| `LARK_BASE_APP_TOKEN` / `LARK_BASE_TABLE_ID` | 送信先のテーブル | **設定済み**（2026-09-08） |
 
 **Lark 連携は 2026-09-08 に完了した。** 武田様の Base
 （`SGX9bDklBa0dZGsUCuujt1pKpkg` / `tblXhWQ6LKqb7wgY`、日本リージョンの larksuite）に
@@ -105,20 +107,20 @@ npx wrangler deploy                    # 本番
 `{"ok":true,"stored":true,"delivered":true}` とレコード生成（添付ファイル含む）まで
 確認済み。確認に使ったレコードと KV の控えは削除済み。
 
-なお、疎通確認の過程でこちらが作った仮の Base
+**microCMS も 2026-09-08 に接続した。** エンドポイントは `news`（リスト形式）、
+フィールドは `title`（必須）と `url`（任意）。日付は microCMS 標準の `publishedAt`。
+`url` は http(s) で始まるものだけリンクにする（相対パスや誤入力を弾く）。
+
+なお、疎通確認の過程でこちらが作った仮の Lark Base
 （`FN3xbnECHa7oYFsTTIZjlB61pNc`）が残っている。**もう使っていない。**
 アプリに drive スコープが無いため API からは削除できないので、放置してある。
 シークレットが誤ってこちらを向いていないか疑うときの目印として書き残す。
 
-`LARK_BASE_APP_TOKEN` と `LARK_BASE_TABLE_ID` は Base の URL からしか取れない。
-アプリに付与されているのは bitable 系スコープだけなので、API から Base を
-探し当てることはできない（drive の一覧は `drive:drive` が無く 99991672 で弾かれる）。
-URL さえ分かれば、列の作成から secret の投入まで次の1本で済む。
+### secret put の落とし穴
 
-```bash
-LARK_APP_ID=cli_xxx LARK_APP_SECRET=xxx \
-  node scripts/setup-lark-base.mjs "https://xxx.larksuite.com/base/<app_token>?table=<table_id>"
-```
-
-**Lark 未設定のあいだ、問い合わせは KV（`INQUIRIES`）にのみ溜まる。** 取りこぼしは
-しないが通知は飛ばない。確認コマンドは `docs/確認事項.md` C-2 を参照。
+`printf 'x' | npx wrangler secret put NAME` は、**成功メッセージを出さずに
+失敗することがある**（2026-09-08 に `MICROCMS_SERVICE_DOMAIN` で踏んだ）。
+投入後は必ず `npx wrangler secret list` に名前が出ているか確かめること。
+`/api/news` は 5分間 `caches.default` に載るので、**設定が抜けていても
+しばらく正常に見えてしまう**。確認はクエリを変えて
+`curl ".../api/news?v=$(date +%s)"` とする。

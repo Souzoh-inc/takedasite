@@ -17,8 +17,8 @@
     { "binding": "INQUIRIES", "id": "686fa302084e4bacaf163180b0433776" }
   ],
   "vars": {
-    // microCMS のサービスドメイン（https://<ここ>.microcms.io）。武田様のアカウント開設後に設定する。
-    "MICROCMS_SERVICE_DOMAIN": "",
+    // MICROCMS_SERVICE_DOMAIN はここには置かない。
+    // このリポジトリは public なので、APIキーと同じく secret 側に入れてある。
     // microCMS のエンドポイント（APIの識別子）
     "MICROCMS_ENDPOINT": "news",
     // Lark / Feishu のAPIホスト。Lark（国際版）は open.larksuite.com

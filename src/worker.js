@@ -80,7 +80,8 @@ async function handleNews(request, env, ctx) {
     .map((c) => ({
       date: c.publishedAt || c.createdAt || '',
       title: c.title || c.name || '',
-      url: typeof c.url === 'string' ? c.url : '',
+      // 相対パスや誤入力でリンクが壊れないよう、http(s) のものだけ採用する
+      url: typeof c.url === 'string' && /^https?:\/\//.test(c.url) ? c.url : '',
     }))
     .filter((c) => c.title);
 
