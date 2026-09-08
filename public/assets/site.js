@@ -1,4 +1,4 @@
-/* UNITE税理士法人 サイト共通スクリプト
+/* 武田税理士事務所 サイト共通スクリプト
    ビルド工程を持たないため、素の JavaScript のまま読み込んでいる。 */
 (function () {
   'use strict';
@@ -95,6 +95,29 @@
     fileName.textContent = f ? f.name + '（' + Math.ceil(f.size / 1024) + ' KB）' : '選択されていません';
     setInvalid('file', !!f && f.size > MAX_BYTES);
   });
+
+  /* ───── 添付欄は「決算書の無料診断」を選んだときだけ出す ───── */
+  var fileField = form.querySelector('[data-field="file"]');
+
+  function syncFileField() {
+    var show = form.elements.kind.value === '決算書の無料診断';
+    fileField.hidden = !show;
+    // 種別を切り替えたときに、選択済みの添付が残ったまま送られないようにする
+    if (!show && fileInput.value) {
+      fileInput.value = '';
+      fileName.textContent = '選択されていません';
+      setInvalid('file', false);
+    }
+  }
+
+  form.querySelectorAll('input[name="kind"]').forEach(function (r) {
+    r.addEventListener('change', syncFileField);
+  });
+  // ヘッダー・CTA帯のリンクから種別が変わる場合にも追従させる
+  document.querySelectorAll('a[data-kind]').forEach(function (a) {
+    a.addEventListener('click', syncFileField);
+  });
+  syncFileField();
 
   function fieldEl(name) { return form.querySelector('[data-field="' + name + '"]'); }
   function setInvalid(name, bad) {
