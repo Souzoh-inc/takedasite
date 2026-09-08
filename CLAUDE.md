@@ -9,7 +9,7 @@ UNITE税理士法人（武田敏弘様）のコーポレートサイト。GitHub
 - **実装の唯一の正は `docs/要件定義書.md`。** §3「作らないもの」に挙がっているものを
   気を利かせて追加しないこと。§9 の未確定項目を推測で埋めないこと
 - 推測で置いた値と未決事項は `docs/確認事項.md` にすべて載っている。値を変えたら必ず更新する
-- 暫定URL: https://takedasite.souzohnic.workers.dev （独自ドメインは未取得）
+- 暫定URL: **https://takedasite.t-takeda-tax-office.workers.dev** （独自ドメインは未取得）
 
 ## 最重要：毎回 push する
 
@@ -40,8 +40,20 @@ push 権限があるのは GitHub アカウント **`Souzoh-inc`**。`gh auth st
 active になっているか確認する。なっていなければ `gh auth switch --user Souzoh-inc`。
 
 Cloudflare は `npx wrangler whoami` で
-`Seiya.kikuchi@souzoh-official.com's Account`（`fa03cd9cababb13a09331265a38f4ed1`）
+**`T.takeda.tax.office@gmail.com's Account`（`0e5afad5b6fd94861d5553599330918c`）**
 が見えていればよい。アカウントIDは `wrangler.jsonc` に直接書いてある。
+
+**2026-09-08 に菊池さんのアカウントから武田様のアカウントへ移管した。**
+見えない場合は `npx wrangler login` でトークンを取り直す。承認画面で武田様の
+アカウントにチェックを入れること。なお `wrangler login` は落とし穴が多い。
+
+- 中断すると **ポート8976 を掴んだプロセスが残り**、次回が
+  「port is already in use」で落ちる。`lsof -nP -iTCP:8976 -sTCP:LISTEN` で見て kill する
+- 古い認証タブで承認すると
+  「Received query string parameter doesn't match」（state 不一致）になる。
+  **必ずその回に開いたタブで承認する**
+- 承認に手間取ると「Timed out waiting for authorization code」で落ちる。
+  ブラウザが開かないときは、出力の URL をアドレスバーに直接貼れば同じプロセスで通る
 
 ## 構成
 
