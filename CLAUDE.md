@@ -56,6 +56,7 @@ public/
   assets/style.css  デザイントークンと全スタイル
   assets/site.js    メニュー / お知らせ取得 / フォーム送信
 src/worker.js     /api/news と /api/contact。静的アセットの配信も通す
+scripts/setup-lark-base.mjs  Lark Base のテーブル列を worker に合わせて用意する
 wrangler.jsonc
 docs/要件定義書.md   実装の唯一の正
 docs/確認事項.md     未決事項と、推測で置いた値の一覧
@@ -95,8 +96,18 @@ npx wrangler deploy                    # 本番
 | 名前 | 用途 |
 |---|---|
 | `MICROCMS_API_KEY` | お知らせの取得。未設定のうちは「お知らせはありません」を表示する |
-| `LARK_APP_ID` / `LARK_APP_SECRET` | Lark Base への送信 |
-| `LARK_BASE_APP_TOKEN` / `LARK_BASE_TABLE_ID` | 送信先のテーブル |
+| ~~`LARK_APP_ID` / `LARK_APP_SECRET`~~ | **設定済み**（2026-09-08） |
+| `LARK_BASE_APP_TOKEN` / `LARK_BASE_TABLE_ID` | 送信先のテーブル。**未設定** |
+
+`LARK_BASE_APP_TOKEN` と `LARK_BASE_TABLE_ID` は Base の URL からしか取れない。
+アプリに付与されているのは bitable 系スコープだけなので、API から Base を
+探し当てることはできない（drive の一覧は `drive:drive` が無く 99991672 で弾かれる）。
+URL さえ分かれば、列の作成から secret の投入まで次の1本で済む。
+
+```bash
+LARK_APP_ID=cli_xxx LARK_APP_SECRET=xxx \
+  node scripts/setup-lark-base.mjs "https://xxx.larksuite.com/base/<app_token>?table=<table_id>"
+```
 
 **Lark 未設定のあいだ、問い合わせは KV（`INQUIRIES`）にのみ溜まる。** 取りこぼしは
 しないが通知は飛ばない。確認コマンドは `docs/確認事項.md` C-2 を参照。
