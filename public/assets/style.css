@@ -1,6 +1,8 @@
 /* ============================================================
    武田敏弘税理士事務所 コーポレートサイト
-   デザイン方向: C案（写真なし・白基調・余白と文字組みで構成）
+   デザイン方向: B案ベース（都市景観のヒーロー＋番号付きの特長）。2026-10-03 の修正事項で
+   「B案の重厚感をもう少し無くす」との指示があり、写真を明るく加工し、影と帯の色を軽くしている。
+   Service のカードのみ A案のデザイン。
    配色: ソウゾウのトーン＆マナー（純白 × ほぼ黒 × 細いライン）を踏襲し、
         アクセントのみ 武田様専用色（セージグリーン）に差し替え。
         ボタンの主色は黒。緑はCTA帯とごく一部の差し色に限定する。
@@ -110,14 +112,17 @@ ul, ol { padding: 0; list-style: none; }
 .nav-toggle[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] span::after  { transform: translateY(-6px) rotate(-45deg); }
 
-/* ───── hero ───── */
-.hero { padding: 96px 0 88px; }
-.hero-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr); gap: 56px; align-items: center; }
-.hero h1 { font-size: clamp(34px, 4.9vw, 56px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.32; }
-.hero-lead { margin-top: 30px; max-width: 480px; font-size: 15px; color: var(--ink-mid); line-height: 2; }
+/* ───── hero（B案） ───── */
+.hero { position: relative; overflow: hidden; color: #fff; padding: 132px 0 120px; min-height: 560px; display: flex; align-items: center; }
+.hero-bg, .hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-bg { object-fit: cover; object-position: center 40%; }
+/* B案の影（左 78% → 右 10%）より薄くし、色も黒寄りから青みのグレーへ */
+.hero-shade { background: linear-gradient(90deg, rgba(28, 40, 44, .62), rgba(28, 40, 44, .30) 50%, rgba(28, 40, 44, .04)); }
+.hero-in { position: relative; width: 100%; }
+.hero h1 { font-size: clamp(34px, 4.9vw, 56px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.4; text-shadow: 0 1px 18px rgba(0,0,0,.18); }
+.hero-lead { margin-top: 28px; max-width: 520px; font-size: 16px; color: rgba(255,255,255,.92); line-height: 2; }
 .hero-actions { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; }
-.hero-note { margin-top: 22px; max-width: 480px; font-size: 13px; color: var(--muted); }
-.hero-art { width: 100%; height: auto; display: block; }
+.hero .btn-primary:hover { background: #fff; color: var(--ink); }
 
 /* ───── 特長3列 ───── */
 .about-sec { padding-bottom: 72px; }
@@ -131,8 +136,8 @@ ul, ol { padding: 0; list-style: none; }
 .value + .value { border-left: 1px solid var(--line); }
 .value:first-child { padding-left: 0; }
 .value:last-child { padding-right: 0; }
-.value-ico { width: 26px; height: 26px; color: var(--accent); }
-.value h3 { margin-top: 20px; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; }
+.value-no { font-size: 15px; font-weight: 800; letter-spacing: .02em; color: var(--accent); line-height: 1; }
+.value h3 { margin-top: 16px; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; }
 .value p { margin-top: 10px; font-size: 13.5px; color: var(--muted); line-height: 1.85; }
 
 /* ───── サービス ───── */
@@ -275,8 +280,7 @@ a.news-item:hover { background: var(--bg-soft); }
   .cta-col { padding: 64px 40px; }
 }
 @media (max-width: 960px) {
-  .hero-in { grid-template-columns: 1fr; gap: 44px; }
-  .hero-lead { max-width: none; }
+  .hero-shade { background: linear-gradient(90deg, rgba(28, 40, 44, .66), rgba(28, 40, 44, .38)); }
   .values-in { grid-template-columns: 1fr; }
   .value { padding: 32px 0; }
   .value + .value { border-left: 0; border-top: 1px solid var(--line); }
@@ -291,7 +295,8 @@ a.news-item:hover { background: var(--bg-soft); }
 @media (max-width: 720px) {
   :root { --pad: 20px; }
   .section { padding: 68px 0; }
-  .hero { padding: 56px 0 60px; }
+  .hero { padding: 72px 0 64px; min-height: 0; }
+  .hero-bg { object-position: 62% center; }
   .sec-head { margin-bottom: 36px; gap: 14px; }
   .sec-note { margin: -20px 0 34px; }
   .nav { display: none; }

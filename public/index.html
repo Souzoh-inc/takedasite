@@ -41,6 +41,9 @@
 
 <!-- ══════════ ヒーロー ══════════ -->
 <section class="hero">
+  <!-- B案の都市景観。重厚感を抑えるため、写真自体を明るく・低コントラストに加工して使っている -->
+  <img class="hero-bg" src="/assets/hero.jpg" alt="" width="1672" height="941" fetchpriority="high">
+  <div class="hero-shade"></div>
   <div class="container hero-in">
     <div class="hero-copy">
       <h1>会社と社長の<br>お金を増やす。</h1>
@@ -49,39 +52,8 @@
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary btn-lg" href="#contact" data-kind="決算書の無料診断">決算書の無料診断を申し込む</a>
-        <a class="btn btn-ghost btn-lg" href="#service">サービスを詳しく見る</a>
+        <a class="btn btn-outline btn-lg" href="#service">サービスを詳しく見る</a>
       </div>
-      <p class="hero-note">直近1期分の決算書をお預かりし、財務の状態と改善余地をご報告します。費用はかかりません。</p>
-    </div>
-
-    <!-- 写真を使わない方針のため、抽象図で「増える」ことだけを示す -->
-    <div class="hero-figure">
-      <svg class="hero-art" viewBox="0 0 560 400" fill="none" role="img" aria-label="業績が伸びていく様子を表した抽象的なグラフ">
-        <defs>
-          <linearGradient id="barFade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#e6ebea"/>
-            <stop offset="100%" stop-color="#ffffff"/>
-          </linearGradient>
-        </defs>
-        <g fill="url(#barFade)">
-          <rect x="190" y="298" width="38" height="62"/>
-          <rect x="242" y="232" width="38" height="128"/>
-          <rect x="294" y="188" width="38" height="172"/>
-          <rect x="346" y="264" width="38" height="96"/>
-          <rect x="398" y="155" width="38" height="205"/>
-          <rect x="450" y="242" width="38" height="118"/>
-          <rect x="502" y="256" width="38" height="104"/>
-        </g>
-        <polyline points="6,296 96,250 186,196 276,148 366,96 456,142 546,40"
-                  stroke="#c8d1cf" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <g fill="#ffffff" stroke="#b6c2bf" stroke-width="1.5">
-          <circle cx="96"  cy="250" r="4.5"/>
-          <circle cx="186" cy="196" r="4.5"/>
-          <circle cx="276" cy="148" r="4.5"/>
-          <circle cx="366" cy="96"  r="4.5"/>
-          <circle cx="456" cy="142" r="4.5"/>
-        </g>
-      </svg>
     </div>
   </div>
 </section>
@@ -102,23 +74,17 @@
 <section class="values">
   <div class="container values-in">
     <div class="value">
-      <svg class="value-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="9"/><path d="M8.5 8l3.5 4 3.5-4M12 12v5M9.5 13.5h5M9.5 16h5"/>
-      </svg>
+      <p class="value-no">01</p>
       <h3>会社と個人の両面から提案</h3>
       <p>法人の利益と社長個人の資産をトータルで最適化します。どちらか一方だけを見た対策はしません。</p>
     </div>
     <div class="value">
-      <svg class="value-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M4 5.5h16v11H9l-5 4v-4H4z"/><path d="M8 9.5h8M8 12.5h5"/>
-      </svg>
+      <p class="value-no">02</p>
       <h3>数字を分かりやすく説明</h3>
       <p>決算書の内容を、そのまま経営判断に使える言葉に翻訳してお伝えします。</p>
     </div>
     <div class="value">
-      <svg class="value-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M3 13.5l3-2 4.5 2.5h3.5a1.5 1.5 0 010 3H10"/><path d="M6 11.5v7"/><path d="M10.5 17h4l5-3.2a1.6 1.6 0 012 2.4L15.5 21H6"/><circle cx="15.5" cy="6" r="3"/>
-      </svg>
+      <p class="value-no">03</p>
       <h3>財務・経営まで継続支援</h3>
       <p>申告して終わりにせず、翌期の数字が変わるところまで月次で伴走します。</p>
     </div>
