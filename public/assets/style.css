@@ -1,5 +1,5 @@
 /* ============================================================
-   武田税理士事務所 コーポレートサイト
+   武田敏弘税理士事務所 コーポレートサイト
    デザイン方向: C案（写真なし・白基調・余白と文字組みで構成）
    配色: ソウゾウのトーン＆マナー（純白 × ほぼ黒 × 細いライン）を踏襲し、
         アクセントのみ 武田様専用色（セージグリーン）に差し替え。
@@ -120,6 +120,11 @@ ul, ol { padding: 0; list-style: none; }
 .hero-art { width: 100%; height: auto; display: block; }
 
 /* ───── 特長3列 ───── */
+.about-sec { padding-bottom: 72px; }
+.about-lead { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; }
+.about-catch { font-size: clamp(24px, 2.8vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.55; }
+.about-text { font-size: 15px; color: var(--ink-mid); line-height: 2.1; }
+
 .values { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .values-in { display: grid; grid-template-columns: repeat(3, 1fr); }
 .value { padding: 48px 44px; }
@@ -131,19 +136,13 @@ ul, ol { padding: 0; list-style: none; }
 .value p { margin-top: 10px; font-size: 13.5px; color: var(--muted); line-height: 1.85; }
 
 /* ───── サービス ───── */
-.svc-tier + .svc-tier { margin-top: 56px; }
-.svc-tier-head { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
-.svc-tier-head .tier { font-size: 10.5px; font-weight: 700; letter-spacing: .14em; color: #fff; background: var(--accent); border-radius: 100px; padding: 5px 12px; line-height: 1; }
-.svc-tier-head h3 { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
-.svc-tier-head .sub { font-size: 13px; color: var(--muted); margin-left: auto; }
 .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.svc-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 32px 30px; background: #fff; transition: border-color .18s; }
-.svc-card:hover { border-color: var(--accent-line); }
-.svc-card .svc-ico { width: 22px; height: 22px; color: var(--accent); }
-.svc-card h4 { margin-top: 18px; font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
-.svc-card p { margin-top: 12px; font-size: 13.5px; color: var(--muted); line-height: 1.9; }
-.svc-card ul { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 6px; }
-.svc-card li { font-size: 12px; color: var(--ink-mid); background: var(--bg-soft); border: 1px solid var(--line); border-radius: 3px; padding: 4px 9px; line-height: 1.5; }
+/* A案のカード：薄いグレーの面＋細線アイコン。枠線は面と同化させ、ホバーで影だけ浮かせる */
+.svc-card { border: 1px solid var(--line); border-radius: 2px; padding: 34px 30px 36px; background: #f6f7f7; transition: box-shadow .2s, background-color .2s; }
+.svc-card:hover { background: #fff; box-shadow: 0 10px 28px rgba(18,23,26,.07); }
+.svc-card .svc-ico { width: 24px; height: 24px; color: var(--ink); }
+.svc-card h3 { margin-top: 22px; font-size: 16px; font-weight: 800; letter-spacing: -0.01em; }
+.svc-card p { margin-top: 14px; font-size: 13.5px; color: var(--ink-mid); line-height: 1.95; }
 
 /* ───── 課題 ───── */
 .issues { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -159,30 +158,6 @@ ul, ol { padding: 0; list-style: none; }
 .step-no { font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--accent); }
 .step h3 { margin-top: 10px; font-size: 15.5px; font-weight: 800; letter-spacing: -0.02em; }
 .step p { margin-top: 10px; font-size: 13.5px; color: var(--muted); line-height: 1.9; }
-
-/* ───── 事例（数値カード） ───── */
-.cases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.case { border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 26px 24px; display: flex; flex-direction: column; }
-.case-ico { width: 22px; height: 22px; color: var(--accent); }
-.case h3 { margin-top: 18px; font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
-.case-metric { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
-.case-num { margin-top: 2px; font-size: clamp(28px, 2.6vw, 34px); font-weight: 800; letter-spacing: -0.045em; line-height: 1.2; font-variant-numeric: tabular-nums; }
-.case-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
-.case-note { margin-top: 32px; font-size: 12.5px; color: var(--muted); }
-
-/* 未確定の内容であることを画面上で明示する箱（公開前にすべて外す） */
-.notice {
-  margin: -8px 0 40px;
-  padding: 16px 20px;
-  border: 1px solid #f0dcc0;
-  border-left: 3px solid #d99b3f;
-  border-radius: var(--radius);
-  background: #fdf5e9;
-  color: #7a5115;
-  font-size: 13px;
-  line-height: 1.85;
-}
-.notice strong { color: #8a5a1e; }
 
 /* 事務所概要に添える補足 */
 .about-note {
@@ -306,7 +281,7 @@ a.news-item:hover { background: var(--bg-soft); }
   .value { padding: 32px 0; }
   .value + .value { border-left: 0; border-top: 1px solid var(--line); }
   .svc-grid, .issues { grid-template-columns: 1fr 1fr; }
-  .cases { grid-template-columns: 1fr 1fr; }
+  .about-lead { grid-template-columns: 1fr; gap: 20px; }
   .steps { grid-template-columns: 1fr 1fr; }
   .contact-grid { grid-template-columns: 1fr; gap: 48px; }
   .cta-in { grid-template-columns: 1fr; }
@@ -322,9 +297,8 @@ a.news-item:hover { background: var(--bg-soft); }
   .nav { display: none; }
   .nav-toggle { display: flex; }
   .hdr-in { height: 64px; }
-  .svc-grid, .issues, .cases, .steps, .choice { grid-template-columns: 1fr; }
-  .svc-tier + .svc-tier { margin-top: 44px; }
-  .svc-tier-head .sub { display: none; }
+  .svc-grid, .issues, .steps, .choice { grid-template-columns: 1fr; }
+  .about-sec { padding-bottom: 48px; }
   .about { padding: 26px 22px; }
   .about dl { grid-template-columns: 84px 1fr; }
   .news-item { grid-template-columns: 1fr; gap: 4px; padding: 18px 2px; }

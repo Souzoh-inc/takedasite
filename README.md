@@ -2,7 +2,7 @@
 
 UNITE税理士法人（武田敏弘様）コーポレートサイト。
 
-- 暫定URL: https://takedasite.souzohnic.workers.dev
+- 暫定URL: https://takedasite.t-takeda-tax-office.workers.dev
 - 要件定義書: [`docs/要件定義書.md`](docs/要件定義書.md) ← 実装の唯一の正
 - 未決事項: [`docs/確認事項.md`](docs/確認事項.md)
 
