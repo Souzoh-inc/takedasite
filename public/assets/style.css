@@ -255,7 +255,8 @@ a.news-item:hover { background: var(--bg-soft); }
 .page-head { padding: 76px 0 44px; border-bottom: 1px solid var(--line); }
 .page-head h1 { font-size: clamp(24px, 3.6vw, 36px); font-weight: 800; letter-spacing: -0.035em; }
 .page-head .page-sub { margin-top: 12px; font-size: 13px; color: var(--muted); letter-spacing: .04em; }
-.prose { max-width: 760px; padding: 60px 0 96px; }
+/* 本文幅はトップの各セクションと同じ（コンテナいっぱい）に揃える。10/19 社内MTGの指摘 */
+.prose { padding: 60px 0 96px; }
 .prose h2 { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; margin-top: 48px; padding-top: 26px; border-top: 1px solid var(--line); }
 .prose h2:first-of-type { margin-top: 0; }
 .prose p { margin-top: 16px; font-size: 14.5px; color: var(--ink-mid); line-height: 2; }
