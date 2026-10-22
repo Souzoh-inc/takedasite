@@ -19,7 +19,7 @@
 | 所在地・電話・メール等の基本情報 | ⏳ 武田様待ち |
 | ドメイン | ➖ **今回は取らない**（10/19 顧客MTGで決定。1年以内の法人化で名称が変わるため、法人化時に設定） |
 | microCMS のテストコンテンツ差し替え | ⏳ 画面操作が必要 |
-| 旧 Worker（`takedasite.souzohnic.workers.dev`）の削除 | ⏳ まだ生きている |
+| 旧 Worker（`takedasite.souzohnic.workers.dev`）の削除 | ✅ 2026-10-22 削除済み |
 | ステータス管理・対応期日の自動通知 | ⏳ 仕様未決（MTGで決める） |
 
 **当初の納品日（10/9）は経過。新しい納品日＝11/2（月）14:00〜15:00 の納品MTG。**
@@ -60,7 +60,7 @@
 **2026-10-22**：QRコードを `docs/qr/takedasite-qr.png` に作成（macOS 標準の CoreImage で生成・読み取り確認済み）。
 CRM（takeda-site）を 10/19 MTG に合わせて更新済み（議事録登録・次回MTG 11/2・工程/期日の引き直し・ドメイン系を対象外に）。
 CRM の案件名/顧客名「UNITE税理士法人様」と終了日 10/8 は MCP に変更手段が無く、画面から直す必要あり。
-旧 Worker の削除は自動モードで止められるため本人実行待ち（菊池アカウント fa03cd9c…、KV `686fa302…` は0件を確認済み）
+旧 Worker は菊池さんが本人実行で削除（`wrangler delete --name takedasite`、菊池アカウント fa03cd9c…）。旧KV `686fa302…` は0件で、KV自体は残置
 
 **Windows 端末での注意**：Claude Code の自動モードでは `npx wrangler deploy` が安全チェックで止められる。
 プロンプト欄で `! npx wrangler deploy` のように本人が実行する。
