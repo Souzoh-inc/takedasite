@@ -64,6 +64,7 @@ CRM の案件名/顧客名「UNITE税理士法人様」と終了日 10/8 は MCP
 
 **2026-11-11**：武田様の修正フォーム（11/6 受信・CRM修正事項2件・①〜⑮）を反映。ヒーローはA案の白基調＋B案の写真、CTA帯はA案の色、FLOW削除、事務所概要に実データ。
 納品MTGは **11/12（木）15:00〜16:00**（11/2 から変更）。プライバシーポリシーの確認結果はまだ届いていない。
+**2026-11-11 17:40 頃に本番へ反映**（`npx wrangler deploy`・Version `9749c38d-3262-4034-9d57-5aef1b004acc`）。本番の index・privacy・style.css が手元と一致。納品MTGの資料は Lark `N64tdZJD7oq47Txf4e0jnIJnp5f`（反映済みの状態に更新済み）。
 
 **Windows 端末での注意**：Claude Code の自動モードでは `npx wrangler deploy` が安全チェックで止められる。
 プロンプト欄で `! npx wrangler deploy` のように本人が実行する。
