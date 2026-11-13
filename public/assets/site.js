@@ -33,16 +33,6 @@
     targets.forEach(function (el) { io.observe(el); });
   }
 
-  /* ───── CTA から種別を引き継いでフォームへ ───── */
-  document.querySelectorAll('a[data-kind]').forEach(function (a) {
-    a.addEventListener('click', function () {
-      var kind = a.getAttribute('data-kind');
-      document.querySelectorAll('input[name="kind"]').forEach(function (r) {
-        if (r.value === kind) r.checked = true;
-      });
-    });
-  });
-
   /* ───── お知らせ（microCMS を Worker 経由で取得） ───── */
   var newsList = document.getElementById('newsList');
   if (newsList) {
@@ -84,40 +74,8 @@
   var form = document.getElementById('contactForm');
   if (!form) return;
 
-  var MAX_BYTES = 10 * 1024 * 1024;
-  var fileInput = document.getElementById('file');
-  var fileName = document.getElementById('fileName');
   var msg = document.getElementById('formMsg');
   var submitBtn = document.getElementById('submitBtn');
-
-  fileInput.addEventListener('change', function () {
-    var f = fileInput.files && fileInput.files[0];
-    fileName.textContent = f ? f.name + '（' + Math.ceil(f.size / 1024) + ' KB）' : '選択されていません';
-    setInvalid('file', !!f && f.size > MAX_BYTES);
-  });
-
-  /* ───── 添付欄は「決算書の無料診断」を選んだときだけ出す ───── */
-  var fileField = form.querySelector('[data-field="file"]');
-
-  function syncFileField() {
-    var show = form.elements.kind.value === '決算書の無料診断';
-    fileField.hidden = !show;
-    // 種別を切り替えたときに、選択済みの添付が残ったまま送られないようにする
-    if (!show && fileInput.value) {
-      fileInput.value = '';
-      fileName.textContent = '選択されていません';
-      setInvalid('file', false);
-    }
-  }
-
-  form.querySelectorAll('input[name="kind"]').forEach(function (r) {
-    r.addEventListener('change', syncFileField);
-  });
-  // ヘッダー・CTA帯のリンクから種別が変わる場合にも追従させる
-  document.querySelectorAll('a[data-kind]').forEach(function (a) {
-    a.addEventListener('click', syncFileField);
-  });
-  syncFileField();
 
   function fieldEl(name) { return form.querySelector('[data-field="' + name + '"]'); }
   function setInvalid(name, bad) {
@@ -136,9 +94,6 @@
     var badEmail = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     setInvalid('email', badEmail);
     if (badEmail) ok = false;
-
-    var f = fileInput.files && fileInput.files[0];
-    if (f && f.size > MAX_BYTES) { setInvalid('file', true); ok = false; }
 
     if (!form.elements.consent.checked) {
       show('err', 'プライバシーポリシーへの同意にチェックをお願いします。');
@@ -173,11 +128,10 @@
       .then(function (res) {
         if (!res.ok || !res.body.ok) throw new Error(res.body && res.body.error || 'failed');
         form.reset();
-        fileName.textContent = '選択されていません';
         show('ok', 'お問い合わせを承りました。担当者より2営業日以内にご連絡いたします。');
       })
       .catch(function () {
-        show('err', '送信に失敗しました。お手数ですが時間をおいて再度お試しいただくか、お電話にてご連絡ください。');
+        show('err', '送信に失敗しました。お手数ですが時間をおいて再度お試しいただくか、t.takeda.tax.office@gmail.com までメールでご連絡ください。');
       })
       .finally(function () {
         submitBtn.disabled = false;

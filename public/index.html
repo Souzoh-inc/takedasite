@@ -29,7 +29,7 @@
       <a href="#service">SERVICE</a>
       <a href="#news">NEWS</a>
       <a href="#contact">CONTACT</a>
-      <a class="btn btn-primary btn-sm" href="#contact" data-kind="決算書の無料診断">無料診断を申し込む</a>
+      <a class="btn btn-primary btn-sm" href="#contact">無料診断を申し込む</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav"><span></span></button>
   </div>
@@ -46,7 +46,7 @@
       決算書を読み解き、<br>お金を増やすためのサポートをします。
     </p>
     <div class="hero-actions">
-      <a class="btn btn-primary btn-lg" href="#contact" data-kind="決算書の無料診断">決算書の無料診断を申し込む</a>
+      <a class="btn btn-primary btn-lg" href="#contact">決算書の無料診断を申し込む</a>
       <a class="btn btn-ghost btn-lg" href="#service">サービスを詳しく見る</a>
     </div>
   </div>
@@ -133,26 +133,10 @@
     <div class="sec-head">
       <h2 class="sec-en">CONTACT</h2><span class="sec-rule"></span><span class="sec-ja">無料診断・お問い合わせ</span>
     </div>
-    <p class="sec-note">まずは、お気軽にご相談ください。</p>
+    <p class="sec-note">決算書の無料診断・その他のご相談を承ります。まずは、お気軽にご相談ください。</p>
 
     <div class="contact-grid">
       <form class="form" id="contactForm" novalidate>
-        <div class="field">
-          <span class="field-label" id="kindLabel">ご希望の種別<span class="req">必須</span></span>
-          <div class="choice" role="radiogroup" aria-labelledby="kindLabel">
-            <input type="radio" name="kind" id="kind-shindan" value="決算書の無料診断" checked>
-            <label for="kind-shindan">
-              <span class="c-title">決算書の無料診断</span>
-              <span class="c-desc">決算書から、会社の状況を診断します</span>
-            </label>
-            <input type="radio" name="kind" id="kind-toiawase" value="お問い合わせ">
-            <label for="kind-toiawase">
-              <span class="c-title">お問い合わせ</span>
-              <span class="c-desc">その他のご相談</span>
-            </label>
-          </div>
-        </div>
-
         <div class="field" data-field="company">
           <label for="company">会社名<span class="req">必須</span></label>
           <input type="text" id="company" name="company" autocomplete="organization" required>
@@ -175,16 +159,6 @@
           <label for="message">ご相談内容<span class="req">必須</span></label>
           <textarea id="message" name="message" required></textarea>
           <span class="err-text">ご相談内容をご入力ください。</span>
-        </div>
-
-        <div class="field" data-field="file">
-          <label for="file">決算書の添付<span class="opt">任意</span></label>
-          <div class="file-drop">
-            <input type="file" id="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv,.zip">
-            <label class="btn btn-ghost btn-sm" for="file">ファイルを選択</label>
-            <span class="file-name" id="fileName">選択されていません</span>
-          </div>
-          <span class="err-text">ファイルサイズは10MBまでです。</span>
         </div>
 
         <label class="consent" data-field="consent">
@@ -227,13 +201,13 @@
       <svg class="cta-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="2.5" width="8" height="4" rx="1"/><path d="M16 4.5h2a2 2 0 012 2v13a2 2 0 01-2 2H6a2 2 0 01-2-2v-13a2 2 0 012-2h2"/><path d="M9 14l2 2 4-4"/></svg>
       <h2>決算書の無料診断</h2>
       <p>まずは、決算書から会社の状態を確認してみませんか？</p>
-      <a class="btn btn-primary" href="#contact" data-kind="決算書の無料診断">無料診断を申し込む</a>
+      <a class="btn btn-primary" href="#contact">無料診断を申し込む</a>
     </div>
     <div class="cta-col">
       <svg class="cta-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="M21.5 7.5l-8.4 5.3a2 2 0 01-2.2 0L2.5 7.5"/></svg>
       <h2>ご相談・お問い合わせ</h2>
       <p>経営・財務・税務に関するお悩みを、まずはお気軽にご相談ください。</p>
-      <a class="btn btn-primary" href="#contact" data-kind="お問い合わせ">お問い合わせする</a>
+      <a class="btn btn-primary" href="#contact">お問い合わせする</a>
     </div>
   </div>
 </section>

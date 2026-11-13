@@ -9,7 +9,6 @@
  * ブラウザには一切渡さない。
  */
 
-const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10MB
 const NEWS_LIMIT = 5;
 
 export default {
@@ -113,7 +112,6 @@ async function handleContact(request, env) {
 
   const str = (k) => String(form.get(k) ?? '').trim();
   const record = {
-    kind: str('kind') || 'お問い合わせ',
     company: str('company'),
     name: str('name'),
     email: str('email'),
@@ -133,12 +131,6 @@ async function handleContact(request, env) {
     return json({ ok: false, error: 'ご相談内容が長すぎます。' }, 400);
   }
 
-  const file = form.get('file');
-  const hasFile = file && typeof file === 'object' && 'size' in file && file.size > 0;
-  if (hasFile && file.size > MAX_UPLOAD_BYTES) {
-    return json({ ok: false, error: 'ファイルサイズは10MBまでです。' }, 400);
-  }
-
   const receivedAt = new Date().toISOString();
   const id = `${receivedAt}-${crypto.randomUUID().slice(0, 8)}`;
 
@@ -151,17 +143,10 @@ async function handleContact(request, env) {
         JSON.stringify({
           ...record,
           receivedAt,
-          fileName: hasFile ? file.name : null,
-          fileSize: hasFile ? file.size : 0,
           ua: request.headers.get('user-agent') || '',
         }),
       );
       stored = true;
-      if (hasFile) {
-        await env.INQUIRIES.put(`file:${id}`, await file.arrayBuffer(), {
-          metadata: { name: file.name, type: file.type },
-        });
-      }
     } catch (e) {
       console.error('KV への保存に失敗:', e);
     }
@@ -172,7 +157,7 @@ async function handleContact(request, env) {
   let deliverError = null;
   if (env.LARK_APP_ID && env.LARK_APP_SECRET && env.LARK_BASE_APP_TOKEN && env.LARK_BASE_TABLE_ID) {
     try {
-      await sendToLark(env, record, receivedAt, hasFile ? file : null);
+      await sendToLark(env, record, receivedAt);
       delivered = true;
     } catch (e) {
       deliverError = String(e && e.message ? e.message : e);
@@ -199,41 +184,37 @@ async function larkToken(env) {
   return d.tenant_access_token;
 }
 
-async function larkUpload(env, token, file) {
-  const fd = new FormData();
-  fd.set('file_name', file.name);
-  fd.set('parent_type', 'bitable_file');
-  fd.set('parent_node', env.LARK_BASE_APP_TOKEN);
-  fd.set('size', String(file.size));
-  fd.set('file', file, file.name);
-
-  const r = await fetch(`${env.LARK_BASE_HOST}/open-apis/drive/v1/medias/upload_all`, {
-    method: 'POST',
-    headers: { authorization: `Bearer ${token}` },
-    body: fd,
-  });
+// Base にいまある列の名前を読む。列が消された・名前が変わったときに、
+// 無い列へ書き込んで記録ごと失敗するのを防ぐため（2026-11-12 に列の削除で届かなくなった件）。
+async function larkFieldNames(env, token) {
+  const url = `${env.LARK_BASE_HOST}/open-apis/bitable/v1/apps/${env.LARK_BASE_APP_TOKEN}/tables/${env.LARK_BASE_TABLE_ID}/fields?page_size=100`;
+  const r = await fetch(url, { headers: { authorization: `Bearer ${token}` } });
   const d = await r.json();
-  if (d.code !== 0) throw new Error(`upload: ${d.code} ${d.msg}`);
-  return d.data.file_token;
+  if (d.code !== 0) throw new Error(`fields: ${d.code} ${d.msg}`);
+  return new Set((d.data.items || []).map((f) => f.field_name));
 }
 
-async function sendToLark(env, record, receivedAt, file) {
+async function sendToLark(env, record, receivedAt) {
   const token = await larkToken(env);
+  const have = await larkFieldNames(env, token);
 
-  const fields = {
+  // 11/12 の納品MTGで「種別」と「決算書の添付」はフォームから外した
+  const wanted = {
     '受付日時': new Date(receivedAt).getTime(),
-    '種別': record.kind,
     '会社名': record.company,
     'お名前': record.name,
     'メールアドレス': record.email,
     'ご相談内容': record.message,
     'ステータス': '未対応',
   };
-
-  if (file) {
-    const fileToken = await larkUpload(env, token, file);
-    fields['添付ファイル'] = [{ file_token: fileToken }];
+  const fields = {};
+  const missing = [];
+  for (const [k, v] of Object.entries(wanted)) {
+    if (have.has(k)) fields[k] = v;
+    else missing.push(k);
   }
+  if (missing.length) console.error('Lark Base に無い列のため書き込まなかった:', missing.join(' / '));
+  if (!Object.keys(fields).length) throw new Error('書き込める列がありません');
 
   const url = `${env.LARK_BASE_HOST}/open-apis/bitable/v1/apps/${env.LARK_BASE_APP_TOKEN}/tables/${env.LARK_BASE_TABLE_ID}/records`;
   const r = await fetch(url, {
